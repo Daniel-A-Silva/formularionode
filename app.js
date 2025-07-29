@@ -3,17 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config(); 
+var pool = require('./models/bd');  
 
-var session = require('express-session');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var contactanosRouter = require('./routes/contactanos');
 var visitanosRouter = require('./routes/visitanos');
+var contactanosRouter = require('./routes/contactanos');
 var quienesomosRouter = require('./routes/quienesomos');
-const { title } = require('process');
 
-require('dotenv').config();
+var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/admin/login');
+var adminrouter = require('./routes/admin/novedades');
+var session = require('express-session');
 
 var app = express();
 
@@ -26,41 +28,63 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({
-  secret:'123asd123asd123asd123asd',
+  secret: 'asdf', // puede ser cualquier string único
   resave: false,
-  saveUninitialized:true,
-}))
+  saveUninitialized: true
+}));
+
+app.use('/admin/login', loginRouter);
 
 
-app.get('/' , function (req,res){
-  var conocido = Boolean (req.session.nombre)
 
-  res.render('index', {
-    title:'Inicio de sesion en Franchu Creations',
-    conocido: conocido,
-    nombre: req.session.nombre
-  })
-})
-
-app.post('/ingresar', function(req,res){
-  if (req.body.nombre){
-    req.session.nombre = req.body.nombre 
+secured = async (req, res, next) => {
+  try {
+    if (req.session.id_usuario) { 
+      next();
+    } else {
+      res.redirect('/admin/login');
+    }
+  } catch (error) {
+    console.log(error);
+    res.redirect('/admin/login');
   }
-  res.redirect ('/'); 
-});
-
-app.get ('/salir', function (req, res){
-req.session.destroy ();
-res.redirect ('/');
-});
+};  
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/contactanos', contactanosRouter);
 app.use('/visitanos', visitanosRouter);
+app.use('/contactanos', contactanosRouter);
 app.use('/quienesomos', quienesomosRouter);
+
+
+app.use('/admin/novedades',secured , adminrouter);
+
+//  select from mysql
+
+pool.query('select nombre ,telefono from empleados').then(function (resultados) {
+  console.log(resultados); 
+})
+.catch(function (error) {
+  console.error('Error en la consulta:', error);
+});
+
+// INSERT MYSQL
+
+var obj = {
+  nombre: 'Juan ',
+  apellido: 'Perez',
+  telefono: '1234567890',
+  edad: 99,
+  email: 'juanperez@bignet.com'
+};
+
+pool.query('insert into empleados set ?', [obj]). then(function (resultados) {
+  console.log(resultados);
+})
+.catch(function (error) {
+  console.error('Error en la inserción:', error);
+}); 
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -78,4 +102,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = app , secured;

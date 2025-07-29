@@ -35,69 +35,68 @@
 
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarNav" aria-controls="navbarNav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
 
-      <div class="mx-auto d-flex">
-  <ul class="navbar-nav text-center">
-    <li class="nav-item px-3">
-      <a class="nav-link fs-4" href="/">Inicio</a>
-    </li>
-    <li class="nav-item px-3">
-      <a class="nav-link fs-4" href="/visitanos">Visítanos</a>
-    </li>
-    <li class="nav-item px-3">
-      <a class="nav-link fs-4" href="/quienesomos">Quiénes somos</a>
-    </li>
-    <li class="nav-item px-3">
-      <a class="nav-link fs-4" href="/contactanos">Contactanos</a>
-    </li>
-  </ul>
+        <div class="mx-auto d-flex">
+          <ul class="navbar-nav text-center">
+            <li class="nav-item px-3">
+              <a class="nav-link fs-4" href="/">Inicio</a>
+            </li>
+            <li class="nav-item px-3">
+              <a class="nav-link fs-4" href="/visitanos">Visítanos</a>
+            </li>
+            <li class="nav-item px-3">
+              <a class="nav-link fs-4" href="/quienesomos">Quiénes somos</a>
+            </li>
+            <li class="nav-item px-3">
+              <a class="nav-link fs-4" href="/contactanos">Contactanos</a>
+            </li>
+          </ul>
 
 
-      <!-- Login a la derecha -->
-      {{#if conocido}}
-        <div class="d-flex align-items-center">
-          <span class="nombre-usuario me-2">Hola {{nombre}}</span>
-          <a href="/salir" class="btn btn-sm btn-outline-light">Salir</a>
+          <!-- Login a la derecha -->
+          {{#if conocido}}
+          <div class="d-flex align-items-center">
+            <span class="nombre-usuario me-2">Hola {{nombre}}</span>
+            <a href="/salir" class="btn btn-sm btn-outline-light">Salir</a>
+          </div>
+          {{else}}
+          <div class="d-flex align-items-center">
+            <a href="/admin/login" class="btn btn-outline-light btn-sm me-2">Login</a>
+          </div>
+          {{/if}}
+
+
         </div>
-      {{else}}
-        <form action="/ingresar" method="post" class="d-flex align-items-center ms-auto me-0 pe-0">
-          <input type="text" name="nombre" class="form-control form-control-sm me-2" placeholder="Tu nombre" required>
-          <button class="btn btn-sm btn-outline-light">Ingresar</button>
-        </form>
-      {{/if}}
+      </div>
+  </nav>
 
+
+
+
+
+
+
+  {{{body}}}
+
+
+
+
+  <footer class="footer bg-dark text-white text-center py-3 mt-5">
+    <div class="container">
+      <p class="mb-0">Creado con 💻 y pasión por <strong>SupreGG</strong> — © 2025</p>
     </div>
-  </div>
-</nav>
+  </footer>
 
-
-
-
-
-  
-  
-{{{body}}}
-
-
-
-
-    <footer class="footer bg-dark text-white text-center py-3 mt-5">
-  <div class="container">
-    <p class="mb-0">Creado con 💻 y pasión por <strong>SupreGG</strong> — © 2025</p>
-  </div>
-</footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-      crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+    crossorigin="anonymous"></script>
 
 </body>
 
